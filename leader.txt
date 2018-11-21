@@ -1,4 +1,7 @@
 *Leader process in a platoon formation*
 *Leader just drives forward indefinitely. drive is an atomic action*
-*Author: Lakhan Shiva Kamireddy*
+*Author: Lakhan Shiva Kamireddy
+ Date: 11/20/18
+ University of Colorado Boulder
+*
 agent Leader(drive) = 'drive.Leader

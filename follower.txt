@@ -4,12 +4,13 @@
  Date: 11/20/18
  University of Colorado Boulder
 *
-agent Wait(y, merge_done) = y.'merge_done.0 *Outputing y, then action merge_done*
+*Outputing y, then action merge_done*
+agent Wait(y, merge_done) = y.'merge_done.0 
 agent Align(y, align_start, align_done) = 'align_start.'y<align_done>.Wait
 agent Rcv_ldr(y, ldr, set_ldr, nldr) = y(nldr).'set_ldr<nldr>.Align(y)
 agent Send_ldr(y, get_ldr, ldr) = get_ldr(ldr).'y<ldr>.Rcv_ldr(y, ldr)
 agent Respond(y, flag) = [flag]Send_ldr(y)
 agent Ident(y, get_id) = get_id(id).'y<id>.y(flag).Respond(y, flag)
-agent Cooperate(r,x) = r(x).(^y)('x<y>.Ident(y))
+agent Cooperate(r,x) = Cooperate|r(x).(^y)('x<y>.Ident(y))
 agent Follow(keep_dist) = 'keep_dist.Follow
 agent Follower = Follow | Cooperate
