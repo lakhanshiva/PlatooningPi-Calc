@@ -1,3 +1,7 @@
+*Joiner process in a platoon formation*
+*Until a decision to join is made by the high-level layer, the joining vehicle drives forward just like leader. Joiner behavior
+transitions to a follower as the last action in the merge state.*
+*Author: Lakhan Shiva Kamireddy*
 agent Merge(y) = 'merge_start.'y<merge_done>.Follower
 agent Wait(y) = get_id(id).'y<id>.y.Merge
 agent Align(y) = 'align_start.align_done.Wait(y)
