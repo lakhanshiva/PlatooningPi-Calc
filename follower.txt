@@ -1,5 +1,5 @@
 agent Wait(y) = y.'merge_done %Outputing action merge_done
-agent Align(y) = 'aligh_start.'y<align_done>.Wait(y)
+agent Align(y) = 'aligh_start.'y<align_done>.Wait
 agent Rcv_ldr(y, ldr) = y(nldr).'set_ldr<nldr>.Align(y)
 agent Send_ldr(y) = get_ldr(ldr).'y<ldr>.Rcv_ldr(y, ldr)
 agent Respond(y, flag) = [flag = True]Send_ldr(y)

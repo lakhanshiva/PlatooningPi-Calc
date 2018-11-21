@@ -1,0 +1,8 @@
+agent Merge(y) = 'merge_start.'y<merge_done>.Follower
+agent Wait(y) = get_id(id).'y<id>.y.Merge
+agent Align(y) = 'align_start.align_done.Wait(y)
+Rcv_Ldr(y) = y(ldr).set_ldr(ldr).Align(y)
+Ans(y, ok) = 'y<ok>.[ok=T]Rcv_Ldr(y)
+Check(y, id) = (^z)('join_ok<z,id>.z(ok).Ans(y, ok))
+Listen(x) = x(y).y(id).Check(y, id)
+Joiner = (^x)('b<x> | (Listen(x) | Joiner))
