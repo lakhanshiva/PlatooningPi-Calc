@@ -31,8 +31,10 @@ proctype Align(chan m)
 	m!align_status;
 }
 
-init {
-		run Wait(y);
-		run Align(y);
-     }
+init
+{
+	run Leader();
+	run Wait(y);
+	run Align(y);
+}
 
