@@ -7,7 +7,7 @@ chan get_ldr = [1] of {int};
 
 chan y = [10] of { mtype };
 chan x = [2] of { mtype };
-chan r = [1] of {mtype};
+chan msg = [1] of {mtype};
 
 mtype curact = drive;
 
@@ -88,15 +88,22 @@ proctype Ident(chan li, lj)
 
 proctype Cooperate(chan lk, ll, lm)
 {
-	/*r?x*/
+	/*msg?x -> receive a broadcasted message(by joiner) and binds it to x*/
 	ll?lk;
 	
-	/*x!y*/	
+	/*(vy)((x!y).Ident(y)*/
+	/*should it be (vy)((x?y).Ident(y) in the paper ?*/ 
+	/*x!y*/
 	lk!lm;
 
 	/*Ident(get_id, y)*/
-	int id, f;
+	int id;
+	/*Follower's id - let this be 1. we will write it to get_id channel*/
+	get_id!1;
 
+	bool f;
+	/*flag is set to 1*/
+	
 	/*get_id(id)*/
 	get_id?id;
 	
@@ -105,6 +112,9 @@ proctype Cooperate(chan lk, ll, lm)
 	
 	/*y(flag)*/
 	lm?f;
+
+	/*Let us write 2 to get_ldr (the leader number)*/
+	get_ldr!2;
 
 	/*Respond(y, flag)*/
 	if
@@ -162,6 +172,6 @@ init
 	/*run Send_Ldr(get_ldr, y);*/
 	/*run Respond(y, flag);*/
 	/*run Ident(get_id, y);*/
-	run Cooperate(x, r, y);
+	run Cooperate(x, msg, y);
 	run Follow();
 }
