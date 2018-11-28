@@ -82,7 +82,8 @@ proctype Ident(chan li, lj)
 	/*y(flag)*/
 	lj?f;
 
-	/*Respond(lj, f)*/	
+	/*Respond(lj, f)*/
+		
 }
 
 proctype Cooperate(chan lk, ll, lm)
@@ -93,7 +94,57 @@ proctype Cooperate(chan lk, ll, lm)
 	/*x!y*/	
 	lk!lm;
 
-	/*Ident(lm)*/
+	/*Ident(get_id, y)*/
+	int id, f;
+
+	/*get_id(id)*/
+	get_id?id;
+	
+	/*y!id*/
+	lm!id;
+	
+	/*y(flag)*/
+	lm?f;
+
+	/*Respond(y, flag)*/
+	if
+	:: (f == 1) ->
+		/*Send_Ldr(get_ldr, y)*/
+		int ldr;
+
+		/*get_ldr(ldr)*/
+		get_ldr?ldr;
+		printf("Curr get leader is %d\n",ldr);
+
+		/*y!ldr*/
+		lm!ldr;
+
+		/*Rcv_Ldr(y, set_ldr);*/
+		int nldr;
+
+		/*y(nldr)*/
+		lm?nldr;
+		printf("Curr set leader is %d\n",nldr);
+
+		/*set_ldr!nldr*/
+		set_ldr!nldr;
+
+		/*Align(y);*/
+		mtype align_status = aligning;
+		/*Delay*/
+		align_status = align_done;
+		
+		/*y!align_done*/
+		lm!align_status;
+		
+		/*Wait(y)*/
+		mtype merge_status = merging;
+		/*Delay*/
+		merge_status = merge_done;
+
+		/*y!merge_done*/
+		lm!merge_status;
+	fi
 }
 
 proctype Follow()
@@ -105,12 +156,12 @@ init
 {	
 	bool flag = 0;
 	run Leader();
-	run Wait(y);
-	run Align(y);
-	run Rcv_Ldr(y, set_ldr);
-	run Send_Ldr(get_ldr, y);
-	run Respond(y, flag);
-	run Ident(get_id, y);
+	/*run Wait(y);*/
+	/*run Align(y);*/
+	/*run Rcv_Ldr(y, set_ldr);*/
+	/*run Send_Ldr(get_ldr, y);*/
+	/*run Respond(y, flag);*/
+	/*run Ident(get_id, y);*/
 	run Cooperate(x, r, y);
 	run Follow();
 }
