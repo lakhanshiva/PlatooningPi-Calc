@@ -58,11 +58,21 @@ proctype Send_Ldr(chan le, lf)
 	/*Rcv_Ldr(lf, ldr);*/
 }
 
-init
+proctype Respond(chan lg, lf)
 {
+	if
+	:: (lf == 1) ->
+		/*Send_Ldr(lg)*/
+	fi
+}
+
+init
+{	
+	bool flag = 0;
 	run Leader();
 	run Wait(y);
 	run Align(y);
 	run Rcv_Ldr(y, set_ldr);
 	run Send_Ldr(get_ldr, y);
+	run Respond(y, flag);
 }
