@@ -1,13 +1,13 @@
 mtype = {drive, merge_done, merging, align_done, aligning};
 chan leader = [1] of { mtype };
-chan align_status = [2] of {mtype};
-chan merge_status = [2] of {mtype};
 chan cur_id = [1] of {int};
 chan cur_ldr = [1] of {int};
 
-chan y = [1] of { mtype };
+chan y = [10] of { mtype };
 
 mtype curact = drive;
+mtype merge_status = merging;
+mtype align_status = aligning;
 
 proctype Leader()
 {
@@ -15,8 +15,24 @@ proctype Leader()
 	leader!curact;
 }
 
-proctype Wait(chan y)
+proctype Wait(chan l)
 {
-	y!merge_done;
-
+	merge_status = merging;
+	/*Delay*/
+	merge_status = merge_done;
+	l!merge_status;
 }
+
+proctype Align(chan m)
+{
+	align_status = aligning;
+	/*Delay*/
+	align_status = align_done;
+	m!align_status;
+}
+
+init {
+		run Wait(y);
+		run Align(y);
+     }
+
