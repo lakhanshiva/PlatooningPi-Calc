@@ -1,6 +1,6 @@
 mtype = {drive, merge_done, merging, align_done, aligning};
 chan leader = [1] of { mtype };
-chan cur_id = [1] of {int};
+chan get_id = [1] of {int};
 chan set_ldr = [1] of {int};
 chan get_ldr = [1] of {int};
 
@@ -58,12 +58,28 @@ proctype Send_Ldr(chan le, lf)
 	/*Rcv_Ldr(lf, ldr);*/
 }
 
-proctype Respond(chan lg, lf)
+proctype Respond(chan lg, lh)
 {
 	if
-	:: (lf == 1) ->
+	:: (lh == 1) ->
 		/*Send_Ldr(lg)*/
 	fi
+}
+
+proctype Ident(chan li, lj)
+{
+	int id, f;
+
+	/*get_id(id)*/
+	li?id;
+	
+	/*y!id*/
+	lj!id;
+	
+	/*y(flag)*/
+	lj?f;
+
+	/*Respond(lj, f)*/	
 }
 
 init
@@ -75,4 +91,5 @@ init
 	run Rcv_Ldr(y, set_ldr);
 	run Send_Ldr(get_ldr, y);
 	run Respond(y, flag);
+	run Ident(get_id, y);
 }
