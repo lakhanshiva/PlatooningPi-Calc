@@ -1,5 +1,6 @@
-mtype = {drive, merge_done, merging, align_done, aligning};
+mtype = {drive, merge_done, merging, align_done, aligning, keep_dist};
 chan leader = [1] of { mtype };
+chan follow = [1] of { mtype };
 chan get_id = [1] of {int};
 chan set_ldr = [1] of {int};
 chan get_ldr = [1] of {int};
@@ -87,12 +88,17 @@ proctype Ident(chan li, lj)
 proctype Cooperate(chan lk, ll, lm)
 {
 	/*r?x*/
-	ll?lk	
+	ll?lk;
 	
 	/*x!y*/	
 	lk!lm;
 
 	/*Ident(lm)*/
+}
+
+proctype Follow()
+{
+	follow!keep_dist;
 }
 
 init
@@ -106,4 +112,5 @@ init
 	run Respond(y, flag);
 	run Ident(get_id, y);
 	run Cooperate(x, r, y);
+	run Follow();
 }
