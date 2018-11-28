@@ -5,6 +5,8 @@ chan set_ldr = [1] of {int};
 chan get_ldr = [1] of {int};
 
 chan y = [10] of { mtype };
+chan x = [2] of { mtype };
+chan r = [1] of {mtype};
 
 mtype curact = drive;
 
@@ -82,6 +84,17 @@ proctype Ident(chan li, lj)
 	/*Respond(lj, f)*/	
 }
 
+proctype Cooperate(chan lk, ll, lm)
+{
+	/*r?x*/
+	ll?lk	
+	
+	/*x!y*/	
+	lk!lm;
+
+	/*Ident(lm)*/
+}
+
 init
 {	
 	bool flag = 0;
@@ -92,4 +105,5 @@ init
 	run Send_Ldr(get_ldr, y);
 	run Respond(y, flag);
 	run Ident(get_id, y);
+	run Cooperate(x, r, y);
 }
