@@ -2,6 +2,7 @@ mtype = {drive, merge_done, merging, align_done, aligning};
 chan leader = [1] of { mtype };
 chan cur_id = [1] of {int};
 chan set_ldr = [1] of {int};
+chan get_ldr = [1] of {int};
 
 chan y = [10] of { mtype };
 
@@ -33,7 +34,7 @@ proctype Rcv_Ldr(chan lc, ld)
 {
 	int nldr;
 
-	/*y?nldr*/
+	/*y(nldr)*/
 	lc?nldr;
 	printf("Curr leader is %d\n",nldr);
 
@@ -43,10 +44,25 @@ proctype Rcv_Ldr(chan lc, ld)
 	/*Align(lc);*/
 }
 
+proctype Send_Ldr(chan le, lf)
+{
+	int ldr;
+
+	/*get_ldr(ldr)*/
+	le?ldr;
+	printf("Curr leader is %d\n",ldr);
+
+	/*y!ldr*/
+	lf!ldr;
+
+	/*Rcv_Ldr(lf, ldr);*/
+}
+
 init
 {
 	run Leader();
 	run Wait(y);
 	run Align(y);
 	run Rcv_Ldr(y, set_ldr);
+	run Send_Ldr(get_ldr, y);
 }
