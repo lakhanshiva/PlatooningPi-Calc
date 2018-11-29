@@ -97,12 +97,6 @@ init
 {	
 	bool flag = 0;
 	run Leader();
-	/*run Wait(y);*/
-	/*run Align(y);*/
-	/*run Rcv_Ldr(y, set_ldr);*/
-	/*run Send_Ldr(get_ldr, y);*/
-	/*run Respond(y, flag);*/
-	/*run Ident(get_id, y);*/
 	run Cooperate(x, msg, y);
 	run Follow();
 }
