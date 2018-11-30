@@ -41,9 +41,24 @@ proctype Align(chan lq)
 	/*Wait(y)*/	
 }
 
+proctype Rcv_Ldr(chan lr, ls)
+{
+	int ldr;
+
+	/*y(ldr)*/
+	ls?nldr;
+	printf("Curr leader is %d\n",ldr);
+
+	/*set_ldr!ldr*/
+	lr!ldr;
+
+	/*Align(y);*/
+}
+
 init
 {	
 	run Merge(y);
 	run Wait(get_id, y);
 	run Align(y);
+	run Rcv_Ldr(set_ldr, y);
 }
