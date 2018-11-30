@@ -151,7 +151,6 @@ proctype Joiner(chan laa)
 
 init
 {
-	bool ok = 1;
 	/*int id = 3;*/
 	/*run Merge(y);*/
 	/*run Wait(get_id, y);*/
