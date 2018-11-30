@@ -83,6 +83,18 @@ proctype Check(chan lv, lw, lx)
 	/*Ans(y,ok)*/
 }
 
+proctype Listen(chan ly, lz)
+{
+	int id;
+
+	/*x(y)*/	
+	
+	/*y(id)*/
+	ly?id;	
+
+	/*Check(y,id)*/
+}
+
 init
 {
 	bool ok = 1;
@@ -93,4 +105,5 @@ init
 	run Rcv_Ldr(set_ldr, y);
 	run Ans(ok, y);
 	run Check(check_join, id, y);
+	run Listen(x, y);
 }
