@@ -21,13 +21,13 @@ proctype Merge(chan ln)
 
 proctype Wait(chan lo, lp)
 {
-	int id;
+	int fid;
 
 	/*get_id(id)*/
-	lo?id;
+	lo?fid;
 	
 	/*y!id*/
-	lp!id;
+	lp!fid;
 
 	/*y.Merge(y)*/
 		
@@ -120,6 +120,20 @@ proctype Listen(chan ly, lz)
 		set_ldr!ldr;
 
 		/*Align(y);*/
+		mtype align_status = aligning;
+		/*Delay*/
+		align_status = align_done;
+	
+		/*Wait(y)*/
+		int fid;
+
+		/*get_id(id)*/
+		get_id?fid;
+	
+		/*y!id*/
+		y!fid;
+
+		/*y.Merge(y)*/
 	fi
 	
 }
