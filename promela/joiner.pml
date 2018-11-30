@@ -95,15 +95,29 @@ proctype Listen(chan ly, lz)
 	/*Check(y,id)*/
 }
 
+proctype Joiner(chan laa)
+{
+	laa!3;
+	/*(vx)(b<x>||!Listen(x)) - broadcasts message x to any vehicle in the range*/
+	
+	
+	
+
+}
+
 init
 {
 	bool ok = 1;
-	int id = 3;
-	run Merge(y);
-	run Wait(get_id, y);
-	run Align(y);
-	run Rcv_Ldr(set_ldr, y);
-	run Ans(ok, y);
-	run Check(check_join, id, y);
-	run Listen(x, y);
+	/*int id = 3;*/
+	/*run Merge(y);*/
+	/*run Wait(get_id, y);*/
+	/*run Align(y);*/
+	/*run Rcv_Ldr(set_ldr, y);*/
+	/*run Ans(ok, y);*/
+	/*run Check(check_join, id, y);*/
+	/*run Listen(x, y);*/
+
+	chan j = [1] of { int };
+	run Joiner(j);
+	run Listen(j, y);		
 }
