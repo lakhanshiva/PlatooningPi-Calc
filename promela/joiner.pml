@@ -110,7 +110,16 @@ proctype Listen(chan ly, lz)
 	if
 	:: (ok == 1) -> 
 		/*Rcv_Ldr(y)*/
-		
+		int ldr;
+
+		/*y(ldr)*/
+		y?ldr;
+		printf("Curr leader is %d\n",ldr);
+
+		/*set_ldr!ldr*/
+		set_ldr!ldr;
+
+		/*Align(y);*/
 	fi
 	
 }
