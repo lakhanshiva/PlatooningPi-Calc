@@ -8,6 +8,7 @@ chan get_ldr = [1] of {int};
 chan y = [10] of { mtype };
 chan x = [2] of { mtype };
 chan msg = [1] of {mtype};
+chan check_join = [2] of { mtype, int};
 
 proctype Merge(chan ln)
 {
@@ -68,12 +69,28 @@ proctype Ans(chan lt, lu)
 	fi
 }
 
+proctype Check(chan lv, lw, lx)
+{
+	chan z = [1] of { mtype };
+	bool ok;
+
+	/*(vz)check_join<z,id>*/
+	lv!z,lw;
+	
+	/*z(ok)*/
+	z?ok;
+
+	/*Ans(y,ok)*/
+}
+
 init
 {
 	bool ok = 1;
+	int id = 3;
 	run Merge(y);
 	run Wait(get_id, y);
 	run Align(y);
 	run Rcv_Ldr(set_ldr, y);
 	run Ans(ok, y);
+	run Check(check_join, id, y);
 }
