@@ -134,6 +134,10 @@ proctype Listen(chan ly, lz)
 		y!fid;
 
 		/*y.Merge(y)*/
+		mtype merge_status = merging;
+		/*Delay*/
+		merge_status = merge_done;
+		y!merge_status;
 	fi
 	
 }
