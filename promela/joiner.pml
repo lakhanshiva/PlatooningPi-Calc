@@ -46,7 +46,7 @@ proctype Rcv_Ldr(chan lr, ls)
 	int ldr;
 
 	/*y(ldr)*/
-	ls?nldr;
+	ls?ldr;
 	printf("Curr leader is %d\n",ldr);
 
 	/*set_ldr!ldr*/
@@ -55,10 +55,25 @@ proctype Rcv_Ldr(chan lr, ls)
 	/*Align(y);*/
 }
 
+proctype Ans(chan lt, lu)
+{
+	/*y!ok*/
+	lu!lt;	
+	
+	/*if(ok == True) then Rcv_Ldr(y)*/
+	if
+	:: (lt == 1) -> 
+		/*Rcv_Ldr(y)*/
+		
+	fi
+}
+
 init
-{	
+{
+	bool ok = 1;
 	run Merge(y);
 	run Wait(get_id, y);
 	run Align(y);
 	run Rcv_Ldr(set_ldr, y);
+	run Ans(ok, y);
 }
