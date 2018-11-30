@@ -1,5 +1,5 @@
 /*
-	Platooning Code
+	Platooning Code (2018)
 	Author: Lakhan Shiva Kamireddy
 	University of Colorado Boulder
 	Note: Pending sanity check
