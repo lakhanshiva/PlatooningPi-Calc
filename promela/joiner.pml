@@ -32,8 +32,18 @@ proctype Wait(chan lo, lp)
 		
 }
 
+proctype Align(chan lq)
+{
+	mtype align_status = aligning;
+	/*Delay*/
+	align_status = align_done;
+	
+	/*Wait(y)*/	
+}
+
 init
 {	
 	run Merge(y);
 	run Wait(get_id, y);
+	run Align(y);
 }
