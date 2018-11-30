@@ -103,6 +103,15 @@ proctype Listen(chan ly, lz)
 	z?ok;
 
 	/*Ans(y,ok)*/
+	/*y!ok*/
+	y!ok;	
+	
+	/*if(ok == True) then Rcv_Ldr(y)*/
+	if
+	:: (ok == 1) -> 
+		/*Rcv_Ldr(y)*/
+		
+	fi
 	
 }
 
