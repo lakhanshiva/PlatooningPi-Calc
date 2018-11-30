@@ -85,6 +85,7 @@ proctype Check(chan lv, lw, lx)
 
 proctype Listen(chan ly, lz)
 {
+	chan z = [1] of { mtype };
 	int id;
 
 	/*x(y)*/	
@@ -93,15 +94,22 @@ proctype Listen(chan ly, lz)
 	ly?id;	
 
 	/*Check(y,id)*/
+	bool ok;
+
+	/*(vz)check_join<z,id>*/
+	check_join!z,id;
+	
+	/*z(ok)*/
+	z?ok;
+
+	/*Ans(y,ok)*/
+	
 }
 
 proctype Joiner(chan laa)
 {
 	laa!3;
 	/*(vx)(b<x>||!Listen(x)) - broadcasts message x to any vehicle in the range*/
-	
-	
-	
 
 }
 
