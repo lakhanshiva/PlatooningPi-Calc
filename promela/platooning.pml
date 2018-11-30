@@ -8,6 +8,7 @@ chan get_ldr = [1] of {int};
 chan y = [10] of { mtype };
 chan x = [2] of { mtype };
 chan msg = [1] of {mtype};
+chan check_join = [2] of { mtype, int};
 
 mtype curact = drive;
 
@@ -93,10 +94,79 @@ proctype Follow()
 	follow!keep_dist;
 }
 
+proctype Listen(chan ly, lz)
+{
+	chan z = [1] of { mtype };
+	int id;
+
+	/*x(y)*/	
+	
+	/*y(id)*/
+	ly?id;	
+
+	/*Check(y,id)*/
+	bool ok;
+
+	/*(vz)check_join<z,id>*/
+	check_join!z,id;
+	
+	/*z(ok)*/
+	z?ok;
+
+	/*Ans(y,ok)*/
+	/*y!ok*/
+	y!ok;	
+	
+	/*if(ok == True) then Rcv_Ldr(y)*/
+	if
+	:: (ok == 1) -> 
+		/*Rcv_Ldr(y)*/
+		int ldr;
+
+		/*y(ldr)*/
+		y?ldr;
+		printf("Curr leader is %d\n",ldr);
+
+		/*set_ldr!ldr*/
+		set_ldr!ldr;
+
+		/*Align(y);*/
+		mtype align_status = aligning;
+		/*Delay*/
+		align_status = align_done;
+	
+		/*Wait(y)*/
+		int fid;
+
+		/*get_id(id)*/
+		get_id?fid;
+	
+		/*y!id*/
+		y!fid;
+
+		/*y.Merge(y)*/
+		mtype merge_status = merging;
+		/*Delay*/
+		merge_status = merge_done;
+		y!merge_status;
+	fi
+	
+}
+
+proctype Joiner(chan laa)
+{
+	laa!3;
+	/*(vx)(b<x>||!Listen(x)) - broadcasts message x to any vehicle in the range*/
+
+}
+
 init
 {	
+	chan j = [1] of { int };
 	bool flag = 0;
 	run Leader();
 	run Cooperate(x, msg, y);
 	run Follow();
+	run Joiner(j);
+	run Listen(j, y);
 }
