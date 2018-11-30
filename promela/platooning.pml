@@ -1,3 +1,9 @@
+/*
+	Platooning Code
+	Author: Lakhan Shiva Kamireddy
+	University of Colorado Boulder
+	Note: Pending sanity check
+*/
 mtype = {drive, merge_done, merging, align_done, aligning, keep_dist};
 chan leader = [1] of { mtype };
 chan follow = [1] of { mtype };
