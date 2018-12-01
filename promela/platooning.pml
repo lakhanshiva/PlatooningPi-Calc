@@ -31,14 +31,15 @@ proctype Cooperate(chan lk, ll)
 	ll?lk;
 	
 	/*(vy)((x!y).Ident(y))*/
-	/*should it be (vy)((x?y).Ident(y) in the paper ?*/ 
+	/*should it be (vy)((x?y).Ident(y)) in the paper ?*/ 
 	/*x!y*/
 	lk!y2;
 
 	/*Ident(get_id, y)*/
 	int id;
 	/*Follower's id - let this be 1. we will write it to get_id channel*/
-	get_id!1;
+	/*get_id(id)*/
+	get_id?id;
 
 	bool f;
 	/*flag is set to 1*/
