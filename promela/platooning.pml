@@ -10,10 +10,12 @@ chan follow = [1] of { mtype };
 chan get_id = [1] of {int};
 chan set_ldr = [1] of {int};
 chan get_ldr = [1] of {int};
+chan follower_id = [1] of {int};
 
 chan y = [10] of { mtype };
 chan x = [2] of { mtype };
 chan check_join = [2] of { mtype, int};
+int cur_ldr = 2;
 
 mtype curact = drive;
 
@@ -55,6 +57,7 @@ proctype Cooperate(chan lk, ll)
 
 	/*Let us write 2 to get_ldr (the leader number)*/
 	get_ldr!2;
+	cur_ldr = 2;
 
 	/*Respond(y, flag)*/
 	if
@@ -136,8 +139,9 @@ proctype Listen(chan ly, lz)
 		int ldr;
 
 		/*y(ldr)*/
-		y?ldr;
-		//printf("Curr leader is %d\n",ldr);
+		/*y chan is of incompatible type */
+		ldr = cur_ldr;
+		printf("Curr leader is %d\n",ldr);
 
 		/*set_ldr!ldr*/
 		set_ldr!ldr;
@@ -157,7 +161,13 @@ proctype Listen(chan ly, lz)
 		get_id?fid;
 	
 		/*y!id*/
-		y!fid;
+		/*y is of incompatible type*/
+		/*We write to follower_id channel*/
+		follower_id!fid;
+		
+		/*Test-remove later*/
+		//follower_id?fid;
+		//printf("Test print fid %d\n",fid);
 
 		/*y.Merge(y)*/
 		/*Merge(y)*/
