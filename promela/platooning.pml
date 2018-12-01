@@ -106,7 +106,7 @@ proctype Listen(chan ly, lz)
 	int id;
 	/*channel j is considered x in the process*/
 	/*x(y)*/	
-	lj?lz;
+	ly?lz;
 	
 	/*y(id)*/
 	lz?id;	
