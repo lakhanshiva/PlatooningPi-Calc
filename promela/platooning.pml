@@ -13,7 +13,6 @@ chan get_ldr = [1] of {int};
 
 chan y = [10] of { mtype };
 chan x = [2] of { mtype };
-chan msg = [1] of {mtype};
 chan check_join = [2] of { mtype, int};
 
 mtype curact = drive;
@@ -171,7 +170,7 @@ init
 	chan j = [1] of { int };
 	bool flag = 0;
 	run Leader();
-	run Cooperate(x, msg, y);
+	run Cooperate(x, j, y);
 	run Follow();
 	run Joiner(j);
 	run Listen(j, y);
