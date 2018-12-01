@@ -8,7 +8,7 @@ mtype = {drive, merge_done, merging, align_done, aligning, keep_dist};
 chan leader = [1] of { mtype };
 chan follow = [1] of { mtype };
 chan get_id = [1] of {int};
-chan set_ldr = [1] of {int};
+chan set_ldr = [2] of {int};
 chan get_ldr = [1] of {int};
 chan follower_id = [1] of {int};
 
@@ -25,17 +25,23 @@ proctype Leader()
 	leader!curact;
 }
 
-proctype Cooperate(chan lk, ll)
+proctype Cooperate(chan lk)
 {
-	chan y2 = [10] of { mtype };
-
+	chan y2 = [10] of { int };
+	int j_id;
+	int temp;
 	/*msg?x -> receive a broadcasted message(by joiner) and binds it to x*/
-	ll?lk;
 	
 	/*(vy)((x!y).Ident(y))*/
 	/*should it be (vy)((x?y).Ident(y)) in the paper ?*/ 
 	/*x!y*/
-	lk!y2;
+	lk?j_id
+	y2!j_id;
+	
+	/*Test-checking what is in y2*/
+	y2?j_id;
+	printf("Cooperate process j_id is %d\n", j_id);
+	y2!j_id;
 
 	/*Ident(get_id, y)*/
 	int id;
@@ -54,6 +60,12 @@ proctype Cooperate(chan lk, ll)
 	
 	/*y(flag)*/
 	y2?f;
+	
+	/*output y*/
+	y2?temp;
+	
+	/*Test - testing what is in f*/
+	printf("Cooperate process printing flag %d\n", f);
 
 	/*Let us write 2 to get_ldr (the leader number)*/
 	get_ldr!2;
@@ -61,13 +73,14 @@ proctype Cooperate(chan lk, ll)
 
 	/*Respond(y, flag)*/
 	if
-	:: (f == 1) ->
+	:: (f != 0) ->
+		printf("Passed cooperate proc if condition\n");
 		/*Send_Ldr(get_ldr, y)*/
 		int ldr;
 
 		/*get_ldr(ldr)*/
 		get_ldr?ldr;
-		//printf("Curr get leader is %d\n",ldr);
+		printf("Curr leader in cooperate procs is %d\n",ldr);
 
 		/*y!ldr*/
 		y2!ldr;
@@ -77,7 +90,7 @@ proctype Cooperate(chan lk, ll)
 
 		/*y(nldr)*/
 		y2?nldr;
-		//printf("Curr set leader is %d\n",nldr);
+		printf("Curr set leader in cooperate proc is %d\n",nldr);
 
 		/*set_ldr!nldr*/
 		set_ldr!nldr;
@@ -96,6 +109,7 @@ proctype Cooperate(chan lk, ll)
 
 		/*merge_done*/
 	fi
+	printf("End of Cooperate process\n");
 }
 
 proctype Follow()
@@ -103,9 +117,9 @@ proctype Follow()
 	follow!keep_dist;
 }
 
-proctype Listen(chan ly, lz)
+proctype Listen(chan ly)
 {
-	chan z = [1] of { mtype };
+	chan z = [1] of { int };
 	int id;
 	/*channel j is considered x in the process*/
 	/*x(y)*/	
@@ -113,7 +127,10 @@ proctype Listen(chan ly, lz)
 
 	/*y(id)*/
 	ly?id;
-	printf("Printing joiner id %d\n", id);	
+	printf("Printing joiner id %d\n", id);
+	
+	/*This id needs to remain in channel j, since it is used by follower process*/
+	ly!id;	
 
 	/*Check(y,id)*/
 	bool ok;
@@ -133,9 +150,9 @@ proctype Listen(chan ly, lz)
 	
 	/*if(ok == True) then Rcv_Ldr(y)*/
 	if
-	:: (ok == 1) -> 
+	:: (ok != 0) -> 
 		/*Rcv_Ldr(y)*/
-		printf("Passed if condition\n");
+		printf("Passed listen proc if condition\n");
 		int ldr;
 
 		/*y(ldr)*/
@@ -176,7 +193,7 @@ proctype Listen(chan ly, lz)
 		merge_status = merge_done;
 		
 		/*merge_start'.merge_done.y'.Follower*/
-		printf("End of joiner process\n");		
+		printf("End of Listen process\n");
 	fi
 	
 }
@@ -194,7 +211,7 @@ init
 	chan j = [1] of { int };
 	run Leader();
 	run Joiner(j);
-	run Listen(j, y);
-	run Cooperate(x, j);
+	run Listen(j);
+	run Cooperate(j);
 	run Follow();
 }
