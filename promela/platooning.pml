@@ -106,10 +106,11 @@ proctype Listen(chan ly, lz)
 	int id;
 	/*channel j is considered x in the process*/
 	/*x(y)*/	
-	ly?lz;
-	
+	//Since x and y channels are of incompatible types, getting directly from channel j
+
 	/*y(id)*/
-	lz?id;	
+	ly?id;
+	printf("Printing joiner id %d\n", id);	
 
 	/*Check(y,id)*/
 	bool ok;
