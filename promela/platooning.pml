@@ -11,9 +11,8 @@ chan set_ldr = [2] of {int};
 chan get_ldr = [1] of {int};
 chan follower_id = [1] of {int};
 
-chan y = [10] of { mtype };
-chan x = [2] of { mtype };
-chan check_join = [2] of { mtype, int};
+chan y = [1] of { mtype }; //This is only used in joiner process
+chan check_join = [2] of { mtype, int}; //This is just a dummy for now
 int cur_ldr = 2;
 
 mtype curact = drive;
