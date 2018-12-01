@@ -23,15 +23,17 @@ proctype Leader()
 	leader!curact;
 }
 
-proctype Cooperate(chan lk, ll, lm)
+proctype Cooperate(chan lk, ll)
 {
+	chan y2 = [10] of { mtype };
+
 	/*msg?x -> receive a broadcasted message(by joiner) and binds it to x*/
 	ll?lk;
 	
-	/*(vy)((x!y).Ident(y)*/
+	/*(vy)((x!y).Ident(y))*/
 	/*should it be (vy)((x?y).Ident(y) in the paper ?*/ 
 	/*x!y*/
-	lk!lm;
+	lk!y2;
 
 	/*Ident(get_id, y)*/
 	int id;
@@ -45,10 +47,10 @@ proctype Cooperate(chan lk, ll, lm)
 	get_id?id;
 	
 	/*y!id*/
-	lm!id;
+	y2!id;
 	
 	/*y(flag)*/
-	lm?f;
+	y2?f;
 
 	/*Let us write 2 to get_ldr (the leader number)*/
 	get_ldr!2;
@@ -64,13 +66,13 @@ proctype Cooperate(chan lk, ll, lm)
 		printf("Curr get leader is %d\n",ldr);
 
 		/*y!ldr*/
-		lm!ldr;
+		y2!ldr;
 
 		/*Rcv_Ldr(y, set_ldr);*/
 		int nldr;
 
 		/*y(nldr)*/
-		lm?nldr;
+		y2?nldr;
 		printf("Curr set leader is %d\n",nldr);
 
 		/*set_ldr!nldr*/
@@ -82,7 +84,7 @@ proctype Cooperate(chan lk, ll, lm)
 		align_status = align_done;
 		
 		/*y!align_done*/
-		lm!align_status;
+		y2!align_status;
 		
 		/*Wait(y)*/
 		mtype merge_status = merging;
@@ -90,7 +92,7 @@ proctype Cooperate(chan lk, ll, lm)
 		merge_status = merge_done;
 
 		/*y!merge_done*/
-		lm!merge_status;
+		y2!merge_status;
 	fi
 }
 
@@ -170,7 +172,7 @@ init
 	chan j = [1] of { int };
 	bool flag = 0;
 	run Leader();
-	run Cooperate(x, j, y);
+	run Cooperate(x, j);
 	run Follow();
 	run Joiner(j);
 	run Listen(j, y);
