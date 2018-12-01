@@ -104,11 +104,12 @@ proctype Listen(chan ly, lz)
 {
 	chan z = [1] of { mtype };
 	int id;
-
+	/*channel j is considered x in the process*/
 	/*x(y)*/	
+	lj?lz;
 	
 	/*y(id)*/
-	ly?id;	
+	lz?id;	
 
 	/*Check(y,id)*/
 	bool ok;
