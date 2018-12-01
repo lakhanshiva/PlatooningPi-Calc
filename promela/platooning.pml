@@ -38,8 +38,8 @@ proctype Cooperate(chan lk, ll)
 	/*Ident(get_id, y)*/
 	int id;
 	/*Follower's id - let this be 1. we will write it to get_id channel*/
-	/*get_id(id)*/
-	get_id?id;
+	/*Added this since, something has to be in get_id*/
+	get_id!1;
 
 	bool f;
 	/*flag is set to 1*/
