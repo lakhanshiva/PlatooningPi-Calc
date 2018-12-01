@@ -84,16 +84,14 @@ proctype Cooperate(chan lk, ll)
 		/*Delay*/
 		align_status = align_done;
 		
-		/*y!align_done*/
-		y2!align_status;
+		/*align_done*/
 		
 		/*Wait(y)*/
 		mtype merge_status = merging;
 		/*Delay*/
 		merge_status = merge_done;
 
-		/*y!merge_done*/
-		y2!merge_status;
+		/*merge_done*/
 	fi
 }
 
@@ -172,8 +170,8 @@ init
 {	
 	chan j = [1] of { int };
 	run Leader();
-	run Cooperate(x, j);
-	run Follow();
 	run Joiner(j);
 	run Listen(j, y);
+	run Cooperate(x, j);
+	run Follow();
 }
