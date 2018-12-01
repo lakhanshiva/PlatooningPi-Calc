@@ -41,7 +41,7 @@ proctype Cooperate(chan lk, ll)
 	/*Added this since, something has to be in get_id*/
 	get_id!1;
 
-	bool f;
+	int f;
 	/*flag is set to 1*/
 	
 	/*get_id(id)*/
@@ -64,7 +64,7 @@ proctype Cooperate(chan lk, ll)
 
 		/*get_ldr(ldr)*/
 		get_ldr?ldr;
-		printf("Curr get leader is %d\n",ldr);
+		//printf("Curr get leader is %d\n",ldr);
 
 		/*y!ldr*/
 		y2!ldr;
@@ -74,7 +74,7 @@ proctype Cooperate(chan lk, ll)
 
 		/*y(nldr)*/
 		y2?nldr;
-		printf("Curr set leader is %d\n",nldr);
+		//printf("Curr set leader is %d\n",nldr);
 
 		/*set_ldr!nldr*/
 		set_ldr!nldr;
