@@ -170,7 +170,6 @@ proctype Joiner(chan laa)
 init
 {	
 	chan j = [1] of { int };
-	bool flag = 0;
 	run Leader();
 	run Cooperate(x, j);
 	run Follow();
