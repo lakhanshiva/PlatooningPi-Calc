@@ -133,7 +133,7 @@ proctype Listen(chan ly, lz)
 
 		/*y(ldr)*/
 		y?ldr;
-		printf("Curr leader is %d\n",ldr);
+		//printf("Curr leader is %d\n",ldr);
 
 		/*set_ldr!ldr*/
 		set_ldr!ldr;
