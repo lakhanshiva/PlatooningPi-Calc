@@ -116,8 +116,11 @@ proctype Listen(chan ly, lz)
 	bool ok;
 
 	/*(vz)check_join<z,id>*/
-	check_join!z,id;
-	
+	/*check_join sub process matched id for compatibility and puts a 1 on the z which is ok*/
+	/*Will assume the behavior for now*/
+	/*Let id be compatible and let z have 1*/	
+	z!1;
+
 	/*z(ok)*/
 	z?ok;
 
@@ -129,6 +132,7 @@ proctype Listen(chan ly, lz)
 	if
 	:: (ok == 1) -> 
 		/*Rcv_Ldr(y)*/
+		printf("Passed if condition\n");
 		int ldr;
 
 		/*y(ldr)*/
@@ -161,7 +165,8 @@ proctype Listen(chan ly, lz)
 		/*Delay*/
 		merge_status = merge_done;
 		
-		/*merge_start'.merge_done.y'.Follower*/		
+		/*merge_start'.merge_done.y'.Follower*/
+		printf("End of joiner process\n");		
 	fi
 	
 }
