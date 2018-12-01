@@ -145,6 +145,9 @@ proctype Listen(chan ly, lz)
 		/*Wait(y)*/
 		int fid;
 
+		/*Added this since, something has to be in get_id*/
+		get_id!ldr;
+
 		/*get_id(id)*/
 		get_id?fid;
 	
@@ -152,10 +155,12 @@ proctype Listen(chan ly, lz)
 		y!fid;
 
 		/*y.Merge(y)*/
+		/*Merge(y)*/
 		mtype merge_status = merging;
 		/*Delay*/
 		merge_status = merge_done;
-		y!merge_status;
+		
+		/*merge_start'.merge_done.y'.Follower*/		
 	fi
 	
 }
@@ -164,6 +169,7 @@ proctype Joiner(chan laa)
 {
 	laa!3;
 	/*(vx)(b<x>||!Listen(x)) - broadcasts message x to any vehicle in the range*/
+	/*In the program we are broadcasting to channel j*/
 
 }
 
