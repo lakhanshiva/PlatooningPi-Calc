@@ -204,6 +204,11 @@ proctype Joiner(chan laa)
 
 }
 
+/*proctype Monitor()
+{
+	assert(cur_ldr == 2);
+}*/
+
 init
 {	
 	chan j = [1] of { int };
@@ -212,4 +217,5 @@ init
 	run Listen(j);
 	run Cooperate(j);
 	run Follow();
+	//run Monitor();
 }
