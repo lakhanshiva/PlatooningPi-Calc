@@ -221,6 +221,9 @@ proctype Listen(chan ly)
 		
 		/*merge_start'.merge_done.y'.Follower*/
 		printf("End of Listen process\n");
+	
+		/*After merge fully complete, the joiner will take the role of the follower*/
+		run Follow();
 	fi
 	
 }
