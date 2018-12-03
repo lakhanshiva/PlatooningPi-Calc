@@ -91,6 +91,9 @@ proctype Cooperate(chan lk)
 		/*get_ldr is giving us the preceding vehicle id*/
 		printf("Current leader in cooperate process is %d\n",ldr);
 
+		/*The follower coomunicates the preceding vehicle id to the joiner*/
+		lk!ldr;
+
 		/*y!ldr*/
 		/*Making this y2!nldr since, our new preceding vehicle is Joiner*/
 		y2!j_id;
@@ -135,26 +138,35 @@ proctype Follow()
 proctype Listen(chan ly)
 {
 	chan z = [1] of { int };
-	int id;
+	int id = 4; /*Id of the Joiner vehicle*/
+	int f_id;
+	int v_id = 1; /*Joiner wants to join behind a vehicle of id 1*/
+
 	/*channel j is considered x in the process*/
 	/*x(y)*/	
 	//Since x and y channels are of incompatible types, getting directly from channel j
 
 	/*y(id)*/
-	ly?id;
-	printf("Printing joiner id %d\n", id);
+	//ly?id;
+	//printf("Printing joiner id %d\n", id);
 	
-	/*This id needs to remain in channel j, since it is used by follower process*/
-	ly!id;	
+	/*Wait until the ly channel has the id communicated by Follower process*/
+	ly?f_id;
+	printf("Printing from joiner process preceding vehicle id %d\n", f_id);
+	/*Here the joiner process knows before hand that it wants to join behind
+	  vehicle with id 1. This is checked in the check_join routine*/	
 
 	/*Check(y,id)*/
 	bool ok;
 
 	/*(vz)check_join<z,id>*/
-	/*check_join sub process matched id for compatibility and puts a 1 on the z which is ok*/
-	/*Will assume the behavior for now*/
-	/*Let id be compatible and let z have 1*/	
-	z!1;
+	if
+	:: (f_id == v_id) ->
+		/*check_join sub process matched id for compatibility and puts a 1 on the z which is ok*/
+		/*id is compatible and let z have 1*/	
+		z!1;
+		printf("The id received from follower is compatible\n");
+	fi
 
 	/*z(ok)*/
 	z?ok;
@@ -165,7 +177,7 @@ proctype Listen(chan ly)
 	
 	/*if(ok == True) then Rcv_Ldr(y)*/
 	if
-	:: (ok != 0) -> 
+	:: (ok == 1) -> 
 		/*Rcv_Ldr(y)*/
 		printf("Passed listen proc if condition\n");
 		int ldr;
@@ -216,7 +228,8 @@ proctype Listen(chan ly)
 proctype Joiner(chan laa)
 {
 	laa!4;
-	/*(vx)(b<x>||!Listen(x)) - broadcasts message x to any vehicle in the range*/
+	/*(vx)(b<x>||!Listen(x)) - broadcasts message x to any vehicle in the range
+	  with it's intention to join*/
 	/*In the program we are broadcasting to channel j*/
 
 }
@@ -231,8 +244,8 @@ init
 	chan j = [1] of { int };
 	run Leader();
 	run Joiner(j);
-	run Listen(j);
 	run Cooperate(j);
+	run Listen(j);
 	run Follow();
 	//run Monitor();
 }
