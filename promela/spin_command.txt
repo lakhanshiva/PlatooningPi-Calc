@@ -1,0 +1,1 @@
+spin -p -s -r -X -v -n123 -l -g -u10000 platooning.pml
