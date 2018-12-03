@@ -223,14 +223,14 @@ proctype Listen(chan ly)
 		printf("End of Listen process\n");
 	
 		/*After merge fully complete, the joiner will take the role of the follower*/
-		run Follow();
+		//run Follow();
 	fi
 	
 }
 
-proctype Joiner(chan laa)
+proctype Joiner(chan laa, val)
 {
-	laa!4;
+	laa!val;
 	/*(vx)(b<x>||!Listen(x)) - broadcasts message x to any vehicle in the range
 	  with it's intention to join*/
 	/*In the program we are broadcasting to channel j*/
@@ -246,7 +246,7 @@ init
 {	
 	chan j = [1] of { int };
 	run Leader();
-	run Joiner(j);
+	run Joiner(j, 4);
 	run Cooperate(j);
 	run Listen(j);
 	run Follow();
