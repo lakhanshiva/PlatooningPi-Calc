@@ -13,7 +13,7 @@ chan follower_id = [1] of {int};
 
 chan y = [1] of { mtype }; //This is only used in joiner process
 chan check_join = [2] of { mtype, int}; //This is just a dummy for now
-int cur_ldr = 2;
+int cur_ldr = 1;
 
 mtype curact = drive;
 
@@ -22,8 +22,8 @@ proctype Leader()
 	curact = drive;
 
 	/*Let us write 2 to get_ldr (the leader number)*/
-	get_ldr!2;
-	cur_ldr = 2;
+	get_ldr!1;
+	cur_ldr = 1;
 
 	leader!curact;
 	printf("Executed Leader process\n");
@@ -33,6 +33,7 @@ proctype Cooperate(chan lk)
 {
 	chan y2 = [10] of { int };
 	int j_id;
+	int f_id;
 	int temp;
 	/*msg?x -> receive a broadcasted message(by joiner) and binds it to x*/
 	
@@ -51,7 +52,12 @@ proctype Cooperate(chan lk)
 	int id;
 	/*Follower's id - let this be 1. we will write it to get_id channel*/
 	/*Added this since, something has to be in get_id*/
-	get_id!1;
+	get_id!2;
+	
+	/*Test-print follower id*/
+	get_id?f_id;
+	printf("Follower id is %d\n", f_id);
+	get_id!f_id;
 
 	int f;
 	/*flag is set to 1*/
@@ -69,28 +75,35 @@ proctype Cooperate(chan lk)
 	y2?temp;
 	
 	/*Test - testing what is in f*/
-	printf("Cooperate process printing flag %d\n", f);
+	printf("Cooperate process, printing flag: %d\n", f);
 
 	/*Respond(y, flag)*/
 	if
 	:: (f != 0) ->
-		printf("Passed cooperate proc if condition\n");
+		printf("Passed cooperate process' if condition\n");
 		/*Send_Ldr(get_ldr, y)*/
+		/*Acc to the descr, Send_Ldr transmits the vehicle preceding the Follower
+		  to Joiner, which is 1 in this case*/
 		int ldr;
 
 		/*get_ldr(ldr)*/
 		get_ldr?ldr;
-		printf("Curr leader in cooperate procs is %d\n",ldr);
+		/*get_ldr is giving us the preceding vehicle id*/
+		printf("Current leader in cooperate process is %d\n",ldr);
 
 		/*y!ldr*/
-		y2!ldr;
+		/*Making this y2!nldr since, our new preceding vehicle is Joiner*/
+		y2!j_id;
 
 		/*Rcv_Ldr(y, set_ldr);*/
+		/*Acc to descr, when joiner is in position, in Rcv_ldr routine,
+		  the Follower sets the Joiner as its new preceding vehicle*/
 		int nldr;
 
 		/*y(nldr)*/
+		/*nldr is the new ldr*/
 		y2?nldr;
-		printf("Curr set leader in cooperate proc is %d\n",nldr);
+		printf("Current new leader in cooperate process is %d\n",nldr);
 
 		/*set_ldr!nldr*/
 		set_ldr!nldr;
@@ -98,6 +111,7 @@ proctype Cooperate(chan lk)
 		/*Align(y);*/
 		mtype align_status = aligning;
 		/*Delay*/
+		/*Here, the distance is increased to d*/
 		align_status = align_done;
 		
 		/*align_done*/
@@ -105,6 +119,7 @@ proctype Cooperate(chan lk)
 		/*Wait(y)*/
 		mtype merge_status = merging;
 		/*Delay*/
+		/*Here the joiner vehicle is fully merging into the platoon*/
 		merge_status = merge_done;
 
 		/*merge_done*/
@@ -158,7 +173,7 @@ proctype Listen(chan ly)
 		/*y(ldr)*/
 		/*y chan is of incompatible type */
 		ldr = cur_ldr;
-		printf("Curr leader is %d\n",ldr);
+		printf("Current leader in Listen process is %d\n",ldr);
 
 		/*set_ldr!ldr*/
 		set_ldr!ldr;
@@ -200,7 +215,7 @@ proctype Listen(chan ly)
 
 proctype Joiner(chan laa)
 {
-	laa!3;
+	laa!4;
 	/*(vx)(b<x>||!Listen(x)) - broadcasts message x to any vehicle in the range*/
 	/*In the program we are broadcasting to channel j*/
 
