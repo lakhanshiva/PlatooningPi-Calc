@@ -234,7 +234,7 @@ proctype Listen(chan ly)
 		/*After merge fully complete, the joiner will take the role of the follower*/
 		joiner_val = 0;
 		run Joiner(mm);
-		run Cooperate(mm);
+		printf("Joiner becomes follower\n");
 	fi
 	
 }
