@@ -20,12 +20,13 @@ mtype curact = drive;
 proctype Leader()
 {
 	curact = drive;
-	
+
 	/*Let us write 2 to get_ldr (the leader number)*/
 	get_ldr!2;
 	cur_ldr = 2;
 
 	leader!curact;
+	printf("Executed Leader process\n");
 }
 
 proctype Cooperate(chan lk)
