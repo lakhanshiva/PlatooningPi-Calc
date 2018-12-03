@@ -20,6 +20,11 @@ mtype curact = drive;
 proctype Leader()
 {
 	curact = drive;
+	
+	/*Let us write 2 to get_ldr (the leader number)*/
+	get_ldr!2;
+	cur_ldr = 2;
+
 	leader!curact;
 }
 
@@ -64,10 +69,6 @@ proctype Cooperate(chan lk)
 	
 	/*Test - testing what is in f*/
 	printf("Cooperate process printing flag %d\n", f);
-
-	/*Let us write 2 to get_ldr (the leader number)*/
-	get_ldr!2;
-	cur_ldr = 2;
 
 	/*Respond(y, flag)*/
 	if
