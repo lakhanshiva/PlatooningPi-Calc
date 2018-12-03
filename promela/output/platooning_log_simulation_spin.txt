@@ -6,98 +6,111 @@ spin: platooning.pml:0, warning, proctype Listen, 'mtype align_status' variable 
 spin: platooning.pml:0, warning, proctype Listen, 'mtype merge_status' variable is never used (other than in print stmnts)
 Starting Leader with pid 1
   1:	proc  0 (:init::1) creates proc  1 (Leader)
-  1:	proc  0 (:init::1) platooning.pml:245 (state 1)	[(run Leader())]
-  2:	proc  1 (Leader:1) platooning.pml:22 (state 1)	[curact = drive]
+  1:	proc  0 (:init::1) platooning.pml:260 (state 1)	[(run Leader())]
+  2:	proc  1 (Leader:1) platooning.pml:23 (state 1)	[curact = drive]
 Starting Joiner with pid 2
   3:	proc  0 (:init::1) creates proc  2 (Joiner)
-  3:	proc  0 (:init::1) platooning.pml:246 (state 2)	[(run Joiner(j))]
-  4:	proc  2 (Joiner:1) platooning.pml:230 (state 1)	[laa!4]
-  5:	proc  1 (Leader:1) platooning.pml:25 (state 2)	[get_ldr!1]
+  3:	proc  0 (:init::1) platooning.pml:261 (state 2)	[(run Joiner(j))]
+  4:	proc  2 (Joiner:1) platooning.pml:244 (state 1)	[laa!joiner_val]
+  5:	proc  1 (Leader:1) platooning.pml:26 (state 2)	[get_ldr!1]
 Starting Cooperate with pid 3
   6:	proc  0 (:init::1) creates proc  3 (Cooperate)
-  6:	proc  0 (:init::1) platooning.pml:247 (state 3)	[(run Cooperate(j))]
-  7:	proc  1 (Leader:1) platooning.pml:26 (state 3)	[cur_ldr = 1]
+  6:	proc  0 (:init::1) platooning.pml:262 (state 3)	[(run Cooperate(j))]
+  7:	proc  1 (Leader:1) platooning.pml:27 (state 3)	[cur_ldr = 1]
 Starting Listen with pid 4
   8:	proc  0 (:init::1) creates proc  4 (Listen)
-  8:	proc  0 (:init::1) platooning.pml:248 (state 4)	[(run Listen(j))]
-  9:	proc  3 (Cooperate:1) platooning.pml:43 (state 1)	[lk?j_id]
- 10:	proc  3 (Cooperate:1) platooning.pml:44 (state 2)	[y2!j_id]
- 11:	proc  1 (Leader:1) platooning.pml:28 (state 4)	[leader!curact]
- 12:	proc  3 (Cooperate:1) platooning.pml:47 (state 3)	[y2?j_id]
+  8:	proc  0 (:init::1) platooning.pml:263 (state 4)	[(run Listen(j))]
+Starting cooperate process
+  9:	proc  3 (Cooperate:1) platooning.pml:37 (state 1)	[printf('Starting cooperate process\\n')]
+ 10:	proc  3 (Cooperate:1) platooning.pml:43 (state 2)	[lk?j_id]
+ 11:	proc  1 (Leader:1) platooning.pml:29 (state 4)	[leader!curact]
+ 12:	proc  3 (Cooperate:1) platooning.pml:46 (state 3)	[f_id = 0]
 Starting Follow with pid 5
  13:	proc  0 (:init::1) creates proc  5 (Follow)
- 13:	proc  0 (:init::1) platooning.pml:249 (state 5)	[(run Follow())]
+ 13:	proc  0 (:init::1) platooning.pml:264 (state 5)	[(run Follow())]
 Executed Leader process
- 14:	proc  1 (Leader:1) platooning.pml:29 (state 5)	[printf('Executed Leader process\\n')]
-Cooperate process j_id is 4
- 15:	proc  3 (Cooperate:1) platooning.pml:48 (state 4)	[printf('Cooperate process j_id is %d\\n',j_id)]
- 16:	proc  5 (Follow:1) platooning.pml:135 (state 1)	[follow!keep_dist]
+ 14:	proc  1 (Leader:1) platooning.pml:30 (state 5)	[printf('Executed Leader process\\n')]
+ 15:	proc  3 (Cooperate:1) platooning.pml:49 (state 4)	[temp = 0]
+ 16:	proc  5 (Follow:1) platooning.pml:143 (state 1)	[follow!keep_dist]
  16:	proc  5 (Follow:1) terminates
  17:	proc  3 (Cooperate:1) platooning.pml:49 (state 5)	[y2!j_id]
- 18:	proc  3 (Cooperate:1) platooning.pml:55 (state 6)	[id = 0]
- 19:	proc  3 (Cooperate:1) platooning.pml:55 (state 7)	[get_id!2]
- 20:	proc  3 (Cooperate:1) platooning.pml:58 (state 8)	[get_id?f_id]
+ 18:	proc  3 (Cooperate:1) platooning.pml:50 (state 6)	[y2?j_id]
+Cooperate process j_id is 4
+ 19:	proc  3 (Cooperate:1) platooning.pml:51 (state 7)	[printf('Cooperate process j_id is %d\\n',j_id)]
+ 20:	proc  3 (Cooperate:1) platooning.pml:54 (state 8)	[((j_id!=0))]
+ 21:	proc  3 (Cooperate:1) platooning.pml:56 (state 9)	[y2!j_id]
+ 22:	proc  3 (Cooperate:1) platooning.pml:62 (state 10)	[id = 0]
+ 23:	proc  3 (Cooperate:1) platooning.pml:62 (state 11)	[get_id!2]
+ 24:	proc  3 (Cooperate:1) platooning.pml:65 (state 12)	[get_id?f_id]
 Follower id is 2
- 21:	proc  3 (Cooperate:1) platooning.pml:59 (state 9)	[printf('Follower id is %d\\n',f_id)]
- 22:	proc  3 (Cooperate:1) platooning.pml:60 (state 10)	[get_id!f_id]
- 23:	proc  3 (Cooperate:1) platooning.pml:66 (state 11)	[f = 0]
- 24:	proc  3 (Cooperate:1) platooning.pml:66 (state 12)	[get_id?id]
-,2 25:	proc  3 (Cooperate:1) platooning.pml:69 (state 13)	[y2!id]
- 26:	proc  3 (Cooperate:1) platooning.pml:72 (state 14)	[y2?f]
- 27:	proc  3 (Cooperate:1) platooning.pml:75 (state 15)	[y2?temp]
+ 25:	proc  3 (Cooperate:1) platooning.pml:66 (state 13)	[printf('Follower id is %d\\n',f_id)]
+ 26:	proc  3 (Cooperate:1) platooning.pml:67 (state 14)	[get_id!f_id]
+ 27:	proc  3 (Cooperate:1) platooning.pml:73 (state 15)	[f = 0]
+ 28:	proc  3 (Cooperate:1) platooning.pml:73 (state 16)	[get_id?id]
+,2 29:	proc  3 (Cooperate:1) platooning.pml:76 (state 17)	[y2!id]
+ 30:	proc  3 (Cooperate:1) platooning.pml:79 (state 18)	[y2?f]
+ 31:	proc  3 (Cooperate:1) platooning.pml:82 (state 19)	[y2?temp]
 Cooperate process, printing flag: 4
- 28:	proc  3 (Cooperate:1) platooning.pml:78 (state 16)	[printf('Cooperate process, printing flag: %d\\n',f)]
- 29:	proc  3 (Cooperate:1) platooning.pml:82 (state 17)	[((f!=0))]
+ 32:	proc  3 (Cooperate:1) platooning.pml:85 (state 20)	[printf('Cooperate process, printing flag: %d\\n',f)]
+ 33:	proc  3 (Cooperate:1) platooning.pml:89 (state 21)	[((f!=0))]
 Passed cooperate process' if condition
- 30:	proc  3 (Cooperate:1) platooning.pml:83 (state 18)	[printf('Passed cooperate process' if condition\\n')]
- 31:	proc  3 (Cooperate:1) platooning.pml:90 (state 19)	[ldr = 0]
- 32:	proc  3 (Cooperate:1) platooning.pml:90 (state 20)	[get_ldr?ldr]
+ 34:	proc  3 (Cooperate:1) platooning.pml:90 (state 22)	[printf('Passed cooperate process' if condition\\n')]
+ 35:	proc  3 (Cooperate:1) platooning.pml:97 (state 23)	[ldr = 0]
+ 36:	proc  3 (Cooperate:1) platooning.pml:97 (state 24)	[get_ldr?ldr]
 Current leader in cooperate process is 1
- 33:	proc  3 (Cooperate:1) platooning.pml:92 (state 21)	[printf('Current leader in cooperate process is %d\\n',ldr)]
- 34:	proc  3 (Cooperate:1) platooning.pml:95 (state 22)	[lk!ldr]
- 35:	proc  3 (Cooperate:1) platooning.pml:99 (state 23)	[y2!j_id]
- 36:	proc  3 (Cooperate:1) platooning.pml:108 (state 24)	[nldr = 0]
- 37:	proc  4 (Listen:1) platooning.pml:154 (state 1)	[ly?f_id]
-Printing from joiner process preceding vehicle id 1
- 38:	proc  4 (Listen:1) platooning.pml:155 (state 2)	[printf('Printing from joiner process preceding vehicle id %d\\n',f_id)]
- 39:	proc  3 (Cooperate:1) platooning.pml:108 (state 25)	[y2?nldr]
- 40:	proc  4 (Listen:1) platooning.pml:163 (state 3)	[ok = 0]
+ 37:	proc  3 (Cooperate:1) platooning.pml:99 (state 25)	[printf('Current leader in cooperate process is %d\\n',ldr)]
+ 38:	proc  3 (Cooperate:1) platooning.pml:102 (state 26)	[lk!ldr]
+ 39:	proc  4 (Listen:1) platooning.pml:163 (state 1)	[ly?f_id]
+Printing from listen process preceding vehicle id 1
+ 40:	proc  4 (Listen:1) platooning.pml:164 (state 2)	[printf('Printing from listen process preceding vehicle id %d\\n',f_id)]
+ 41:	proc  3 (Cooperate:1) platooning.pml:106 (state 27)	[y2!j_id]
+ 42:	proc  4 (Listen:1) platooning.pml:172 (state 3)	[ok = 0]
+ 43:	proc  3 (Cooperate:1) platooning.pml:115 (state 28)	[nldr = 0]
+ 44:	proc  4 (Listen:1) platooning.pml:173 (state 4)	[((f_id==v_id))]
+ 45:	proc  4 (Listen:1) platooning.pml:176 (state 5)	[z!1]
+ 46:	proc  3 (Cooperate:1) platooning.pml:115 (state 29)	[y2?nldr]
 Current new leader in cooperate process is 4
- 41:	proc  3 (Cooperate:1) platooning.pml:109 (state 26)	[printf('Current new leader in cooperate process is %d\\n',nldr)]
- 42:	proc  3 (Cooperate:1) platooning.pml:112 (state 27)	[set_ldr!nldr]
- 43:	proc  3 (Cooperate:1) platooning.pml:118 (state 28)	[align_status = aligning]
- 44:	proc  3 (Cooperate:1) platooning.pml:118 (state 29)	[align_status = align_done]
- 45:	proc  4 (Listen:1) platooning.pml:164 (state 4)	[((f_id==v_id))]
- 46:	proc  4 (Listen:1) platooning.pml:167 (state 5)	[z!1]
- 47:	proc  3 (Cooperate:1) platooning.pml:126 (state 30)	[merge_status = merging]
+ 47:	proc  3 (Cooperate:1) platooning.pml:116 (state 30)	[printf('Current new leader in cooperate process is %d\\n',nldr)]
 The id received from follower is compatible
- 48:	proc  4 (Listen:1) platooning.pml:168 (state 6)	[printf('The id received from follower is compatible\\n')]
- 50:	proc  3 (Cooperate:1) platooning.pml:126 (state 31)	[merge_status = merge_done]
- 51:	proc  4 (Listen:1) platooning.pml:172 (state 9)	[z?ok]
- 53:	proc  4 (Listen:1) platooning.pml:176 (state 10)	[y!ok]
- 54:	proc  4 (Listen:1) platooning.pml:180 (state 11)	[((ok==1))]
+ 48:	proc  4 (Listen:1) platooning.pml:177 (state 6)	[printf('The id received from follower is compatible\\n')]
+ 49:	proc  3 (Cooperate:1) platooning.pml:119 (state 31)	[set_ldr!nldr]
+ 50:	proc  3 (Cooperate:1) platooning.pml:125 (state 32)	[align_status = aligning]
+ 51:	proc  3 (Cooperate:1) platooning.pml:125 (state 33)	[align_status = align_done]
+ 52:	proc  3 (Cooperate:1) platooning.pml:133 (state 34)	[merge_status = merging]
+ 54:	proc  4 (Listen:1) platooning.pml:181 (state 9)	[z?ok]
+ 55:	proc  3 (Cooperate:1) platooning.pml:133 (state 35)	[merge_status = merge_done]
+ 58:	proc  4 (Listen:1) platooning.pml:185 (state 10)	[y!ok]
 End of Cooperate process
- 55:	proc  3 (Cooperate:1) platooning.pml:130 (state 34)	[printf('End of Cooperate process\\n')]
+ 59:	proc  3 (Cooperate:1) platooning.pml:138 (state 40)	[printf('End of Cooperate process\\n')]
+ 60:	proc  4 (Listen:1) platooning.pml:189 (state 11)	[((ok==1))]
 Passed listen proc if condition
- 56:	proc  4 (Listen:1) platooning.pml:182 (state 12)	[printf('Passed listen proc if condition\\n')]
- 57:	proc  4 (Listen:1) platooning.pml:187 (state 13)	[ldr = 0]
- 58:	proc  4 (Listen:1) platooning.pml:187 (state 14)	[ldr = cur_ldr]
+ 61:	proc  4 (Listen:1) platooning.pml:191 (state 12)	[printf('Passed listen proc if condition\\n')]
+ 62:	proc  4 (Listen:1) platooning.pml:196 (state 13)	[ldr = 0]
+ 63:	proc  4 (Listen:1) platooning.pml:196 (state 14)	[ldr = cur_ldr]
 Current leader in Listen process is 1
- 59:	proc  4 (Listen:1) platooning.pml:188 (state 15)	[printf('Current leader in Listen process is %d\\n',ldr)]
-,1 60:	proc  4 (Listen:1) platooning.pml:191 (state 16)	[set_ldr!ldr]
- 61:	proc  4 (Listen:1) platooning.pml:196 (state 17)	[align_status = aligning]
- 62:	proc  4 (Listen:1) platooning.pml:196 (state 18)	[align_status = align_done]
- 63:	proc  4 (Listen:1) platooning.pml:202 (state 19)	[fid = 0]
- 64:	proc  4 (Listen:1) platooning.pml:202 (state 20)	[get_id!ldr]
- 65:	proc  4 (Listen:1) platooning.pml:205 (state 21)	[get_id?fid]
- 66:	proc  4 (Listen:1) platooning.pml:210 (state 22)	[follower_id!fid]
- 67:	proc  4 (Listen:1) platooning.pml:220 (state 23)	[merge_status = merging]
- 68:	proc  4 (Listen:1) platooning.pml:220 (state 24)	[merge_status = merge_done]
+ 64:	proc  4 (Listen:1) platooning.pml:197 (state 15)	[printf('Current leader in Listen process is %d\\n',ldr)]
+,1 65:	proc  4 (Listen:1) platooning.pml:200 (state 16)	[set_ldr!ldr]
+ 66:	proc  4 (Listen:1) platooning.pml:205 (state 17)	[align_status = aligning]
+ 67:	proc  4 (Listen:1) platooning.pml:205 (state 18)	[align_status = align_done]
+ 68:	proc  4 (Listen:1) platooning.pml:211 (state 19)	[fid = 0]
+ 69:	proc  4 (Listen:1) platooning.pml:211 (state 20)	[get_id!ldr]
+ 70:	proc  4 (Listen:1) platooning.pml:214 (state 21)	[get_id?fid]
+ 71:	proc  4 (Listen:1) platooning.pml:219 (state 22)	[follower_id!fid]
+ 72:	proc  4 (Listen:1) platooning.pml:229 (state 23)	[merge_status = merging]
+ 73:	proc  4 (Listen:1) platooning.pml:229 (state 24)	[merge_status = merge_done]
 End of Listen process
- 69:	proc  4 (Listen:1) platooning.pml:223 (state 25)	[printf('End of Listen process\\n')]
- 70:	proc  4 (Listen:1) terminates
- 70:	proc  3 (Cooperate:1) terminates
- 70:	proc  2 (Joiner:1) terminates
- 70:	proc  1 (Leader:1) terminates
- 70:	proc  0 (:init::1) terminates
-6 processes created
+ 74:	proc  4 (Listen:1) platooning.pml:232 (state 25)	[printf('End of Listen process\\n')]
+ 75:	proc  4 (Listen:1) platooning.pml:235 (state 26)	[joiner_val = 0]
+Starting Joiner with pid 5
+ 76:	proc  4 (Listen:1) creates proc  5 (Joiner)
+ 76:	proc  4 (Listen:1) platooning.pml:236 (state 27)	[(run Joiner(mm))]
+Joiner becomes follower
+ 77:	proc  4 (Listen:1) platooning.pml:237 (state 28)	[printf('Joiner becomes follower\\n')]
+ 79:	proc  5 (Joiner:1) platooning.pml:244 (state 1)	[laa!joiner_val]
+ 79:	proc  5 (Joiner:1) terminates
+ 79:	proc  4 (Listen:1) terminates
+ 79:	proc  3 (Cooperate:1) terminates
+ 79:	proc  2 (Joiner:1) terminates
+ 79:	proc  1 (Leader:1) terminates
+ 79:	proc  0 (:init::1) terminates
+7 processes created
