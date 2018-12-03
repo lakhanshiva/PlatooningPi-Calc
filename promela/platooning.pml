@@ -14,6 +14,7 @@ chan follower_id = [1] of {int};
 chan y = [1] of { mtype }; //This is only used in joiner process
 chan check_join = [2] of { mtype, int}; //This is just a dummy for now
 int cur_ldr = 1;
+int joiner_val = 4;
 
 mtype curact = drive;
 
@@ -33,19 +34,25 @@ proctype Cooperate(chan lk)
 {
 	chan y2 = [10] of { int };
 	int j_id;
-	int f_id;
-	int temp;
+	printf("Starting cooperate process\n");
 	/*msg?x -> receive a broadcasted message(by joiner) and binds it to x*/
 	
 	/*(vy)((x!y).Ident(y))*/
 	/*should it be (vy)((x?y).Ident(y)) in the paper ?*/ 
 	/*x!y*/
-	lk?j_id
-	y2!j_id;
+	lk?j_id;	
+		
+	int f_id;
+	int temp;
 	
 	/*Test-checking what is in y2*/
+	y2!j_id;
 	y2?j_id;
 	printf("Cooperate process j_id is %d\n", j_id);
+	
+	if
+	:: (j_id != 0) ->
+
 	y2!j_id;
 
 	/*Ident(get_id, y)*/
@@ -127,6 +134,7 @@ proctype Cooperate(chan lk)
 
 		/*merge_done*/
 	fi
+	fi
 	printf("End of Cooperate process\n");
 }
 
@@ -137,6 +145,7 @@ proctype Follow()
 
 proctype Listen(chan ly)
 {
+	chan mm = [1] of { int };/*We will use channel mm at the end of successful join*/
 	chan z = [1] of { int };
 	int id = 4; /*Id of the Joiner vehicle*/
 	int f_id;
@@ -152,7 +161,7 @@ proctype Listen(chan ly)
 	
 	/*Wait until the ly channel has the id communicated by Follower process*/
 	ly?f_id;
-	printf("Printing from joiner process preceding vehicle id %d\n", f_id);
+	printf("Printing from listen process preceding vehicle id %d\n", f_id);
 	/*Here the joiner process knows before hand that it wants to join behind
 	  vehicle with id 1. This is checked in the check_join routine*/	
 
@@ -223,14 +232,17 @@ proctype Listen(chan ly)
 		printf("End of Listen process\n");
 	
 		/*After merge fully complete, the joiner will take the role of the follower*/
-		//run Follow();
+		joiner_val = 0;
+		run Joiner(mm);
+		run Cooperate(mm);
 	fi
 	
 }
 
-proctype Joiner(chan laa, val)
+proctype Joiner(chan laa)
 {
-	laa!val;
+	laa!joiner_val;
+	//laa!4;
 	/*(vx)(b<x>||!Listen(x)) - broadcasts message x to any vehicle in the range
 	  with it's intention to join*/
 	/*In the program we are broadcasting to channel j*/
@@ -246,7 +258,7 @@ init
 {	
 	chan j = [1] of { int };
 	run Leader();
-	run Joiner(j, 4);
+	run Joiner(j);
 	run Cooperate(j);
 	run Listen(j);
 	run Follow();
