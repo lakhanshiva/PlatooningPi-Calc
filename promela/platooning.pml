@@ -12,7 +12,7 @@ chan get_ldr = [1] of {int};
 chan follower_id = [1] of {int};
 
 chan y = [1] of { mtype }; //This is only used in joiner process
-chan check_join = [2] of { mtype, int}; //This is just a dummy for now
+chan check_join = [2] of { mtype, int};
 int cur_ldr = 1;
 int joiner_val = 4;
 
