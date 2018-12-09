@@ -15,12 +15,16 @@ chan y = [1] of { mtype }; //This is only used in joiner process
 chan check_join = [2] of { mtype, int};
 int cur_ldr = 1;
 int joiner_val = 4;
+int ldr_proc_cnt = 0;
+int jnr_proc_cnt = 0;
+int flr_proc_cnt = 0;
 
 mtype curact = drive;
 
 proctype Leader()
 {
 	curact = drive;
+	ldr_proc_cnt++;
 
 	/*Let us write 2 to get_ldr (the leader number)*/
 	get_ldr!1;
@@ -28,9 +32,10 @@ proctype Leader()
 
 	leader!curact;
 	printf("Executed Leader process\n");
+	
 	/*Making sure there is only one leader process at any time
-	  Leader is started with pid 1. If a second leader get's started arrertion gets violated.*/
-	assert(_pid == 1);
+	  Leader is started with pid 1. If a second leader get's started, following assertion gets violated.*/
+	assert(ldr_proc_cnt == 1);
 }
 
 proctype Cooperate(chan lk)
@@ -144,6 +149,10 @@ proctype Cooperate(chan lk)
 proctype Follow()
 {
 	follow!keep_dist;
+	flr_proc_cnt++;
+
+	/*The folowing assertion fails if the joiner fails to become follower after executing merge*/
+	assert(flr_proc_cnt > jnr_proc_cnt);
 }
 
 proctype Listen(chan ly)
@@ -238,6 +247,8 @@ proctype Listen(chan ly)
 		joiner_val = 0;
 		run Joiner(mm);
 		printf("Joiner becomes follower\n");
+		run Follow();
+		jnr_proc_cnt++;
 	fi
 	
 }
