@@ -28,6 +28,9 @@ proctype Leader()
 
 	leader!curact;
 	printf("Executed Leader process\n");
+	/*Making sure there is only one leader process at any time
+	  Leader is started with pid 1. If a second leader get's started arrertion gets violated.*/
+	assert(_pid == 1);
 }
 
 proctype Cooperate(chan lk)
