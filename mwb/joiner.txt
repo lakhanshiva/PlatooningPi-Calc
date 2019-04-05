@@ -8,7 +8,6 @@
 agent Merge(y,merge_start,merge_done) = 'merge_start.'y<merge_done>.Follower
 agent Wait(y,get_id) = get_id(id).'y<id>.y.Merge
 agent Align(y,align_start,align_done) = 'align_start.align_done.Wait(y)
-*There is a syntax error in the paper at set_ldr in the next line*
 agent Rcv_ldr(y) = y(ldr).'set_ldr<ldr>.Align(y)
 agent Ans(y, ok) = 'y<ok>.[ok]Rcv_Ldr(y)
 agent Check(y, id, join_ok) = (^z)('join_ok<z,id>.z(ok).Ans(y, ok))
